@@ -1,2 +1,6 @@
 /raspi-robot
 /raspi-robot.o
+/.settings/
+/.cproject
+/.project
+/Robot.o
