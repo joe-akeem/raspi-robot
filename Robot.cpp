@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <wiringPi.h>
 #include <iostream>
+#include <thread>
 
 #include "Robot.hpp"
 
@@ -23,6 +24,8 @@ Robot::~Robot() {
 }
 
 void Robot::performDemo() {
-	pushMotor->performDemo();
-	steeringMotor->performDemo();
+	thread t1(&StepperMotor28BYJ48::performDemo, pushMotor);
+	thread t2(&StepperMotor28BYJ48::performDemo, steeringMotor);
+	t1.join();
+	t2.join();
 }
