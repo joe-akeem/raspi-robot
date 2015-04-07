@@ -15,10 +15,8 @@
 using namespace std;
 
 int main(void) {
-	puts("Hello World!!!");
-
 	Robot robot;
-	robot.performDemo();
+	robot.startInKeyboardControl();
 
 	return EXIT_SUCCESS;
 }

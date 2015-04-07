@@ -2,6 +2,7 @@
 #include <wiringPi.h>
 #include <iostream>
 #include <thread>
+#include <termios.h>
 
 #include "Robot.hpp"
 
@@ -29,3 +30,54 @@ void Robot::performDemo() {
 	t1.join();
 	t2.join();
 }
+
+void Robot::startInKeyboardControl() {
+	bool started = true;
+	cout << "Control the robot as follows:" << endl;
+	cout << "start moving forward:  'f'-key" << endl;
+	cout << "start moving backward: 'b'-key" << endl;
+	cout << "halt:                  'h'-key" << endl;
+	cout << "turn left:             'l'-key" << endl;
+	cout << "turn right:            'r'-key" << endl;
+	cout << "quit:                  'q'-key" << endl;
+	while(started) {
+		char c = getch();
+		switch(c) {
+			case 'f':
+				pushMotor->startClockwise();
+				break;
+			case 'b':
+				pushMotor->startCounterClockwise();
+				break;
+			case 'h':
+				pushMotor->stop();
+				break;
+			case 'l':
+				steeringMotor->angleRotation(30);
+				break;
+			case 'r':
+				steeringMotor->angleRotation(-30);
+				break;
+			case 'q':
+				started = false;
+				pushMotor->stop();
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+int Robot::getch() {
+	static int ch = -1, fd = 0;
+	struct termios neu, alt;
+	fd = fileno(stdin);
+	tcgetattr(fd, &alt);
+	neu = alt;
+	neu.c_lflag &= ~(ICANON|ECHO);
+	tcsetattr(fd, TCSANOW, &neu);
+	ch = getchar();
+	tcsetattr(fd, TCSANOW, &alt);
+	return ch;
+}
+
