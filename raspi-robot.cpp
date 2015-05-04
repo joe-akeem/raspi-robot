@@ -14,9 +14,15 @@
 
 using namespace std;
 
-int main(void) {
+int main(int argc, const char *argv[]) {
 	Robot robot;
-	robot.startInKeyboardControl();
+	if (argc > 1) {
+		robot.setLineTrackingThreshold(atoi(argv[1]));
+	}
+	if (argc > 2) {
+		robot.setHeadless(true);
+	}
+	robot.trackLine();
 
 	return EXIT_SUCCESS;
 }
