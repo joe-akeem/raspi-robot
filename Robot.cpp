@@ -96,11 +96,11 @@ void Robot::startInKeyboardControl() {
 
 void Robot::steer(float angle) {
 	float a = angle;
-	if (a < -20) {
-		a = -20;
+	if (a < -30) {
+		a = -30;
 	}
-	if (a > 20) {
-		a = 20;
+	if (a > 30) {
+		a = 30;
 	}
 	steeringMotor->angleRotation(a - currentSteeringAngle);
 	currentSteeringAngle = a;
